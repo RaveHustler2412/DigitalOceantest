@@ -14,7 +14,9 @@ app.use(cors({
 
 
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    const videoPath = "./uploads/sample1.mp4"
+  const resolvedPath = path.resolve("uploads", videoPath);
+  res.sendFile(resolvedPath);
   });
 
 app.listen(port, function () { 
