@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const path = require("path");
+
 
 // use port 3000 unless there exists a preconfigured port
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 7000;
 
 
 
@@ -15,7 +17,7 @@ app.use(cors({
 
 app.get('/', function (req, res) {
     const videoPath = "./uploads/sample1.mp4"
-  const resolvedPath = path.resolve("uploads", videoPath);
+  const resolvedPath = path.resolve(videoPath);
   res.sendFile(resolvedPath);
   });
 
