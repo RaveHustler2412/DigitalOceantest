@@ -16,7 +16,7 @@ ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 //   ]
 
 function fconvert(){
-    ffmpeg('./uploads/sample.mp4', { timeout: 232000 }).addOptions([
+    ffmpeg('./uploads/testvideo.mp4', { timeout: 232000 }).addOptions([
     '-profile:v baseline',
     '-level 3.0',
     '-start_number 0',
