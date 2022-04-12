@@ -7,6 +7,16 @@ const multer = require('multer')
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 const path = require('path')
+const { create }=require('ipfs-http-client') 
+
+
+async function ipfs(Buffer){
+// connect to the default API address http://localhost:5001
+const client = create()
+const { cid } = await client.add(Buffer)
+console.log(cid.toString())
+}
+
 
 const hashid=["QmfPnXLhFd4ChNxtCfPUC7f1Eu1y9sZtRgvGe9P4cUnNH5","QmPEq1jAv9BFSSDTgXN4zedXcuyFr6YWHcN4fCTUR6hKjA","QmXuQThFsUbu2BBERHDRTuYHX7Mya77eQuD9hrTSgkAEb3","QmUfFYbC8mwujZ2Yqz6FCQC56K3TLxeQfXC5CPtb2zcbEV","QmUyj53V2sE4rKLnMwCt5SpcmF61Jfk4CWRJXgV8jVpkmA","QmWwHyhqDzbcDAwsSkXvPRLRfSBJfjWrCU9nb6rc8eB9A5","QmTcQ1xM4hGh513zb4ZSK4UNgRsHooeePNHRm11wD7FaZR","QmaTPxYG3oLxPzwZRepg86Q3hzrSWxjv3SD9mAYkh3zkLa","QmPYnsxR73dkwx8KFFUHjG8DsbpvTFRsL7kTXwx3DvGw6S","QmcZfz7UP6Ncvtwioe71D5jCZjzHztyXwFPhmazbXJHHkE","QmbvPo6rtBg2Aa6JFxVhwM2fvsh5FHq3YoQoJ8vMHHNty4","QmXZWaekCaMhHpJuEHX85QFHZEW1yLt1AMVW7UWkvR9fma","QmP8wXQckjeFJ5Uawt4im6eZ8vB3k3512iHs3LRA8kbPvx"]
 
@@ -26,7 +36,7 @@ var nodes_online=["157.245.97.134","204.48.21.95"];
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, 'media/');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname.replace(/ /g, '_'));
@@ -55,8 +65,8 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
   console.log(req.file);
 
   // const videoPath = `../uploads/${file}`
-  const videoPath = './uploads/'
-  const resolvedPath = path.resolve("uploads", videoPath);
+  const videoPath = '.media/'
+  const resolvedPath = path.resolve("media", videoPath);
   // res.sendFile(resolvedPath);
   // console.log(resolvedPath)
  
@@ -68,18 +78,39 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
           file: req.file
       });
   }
-  if(req.file.filename === 'testvideo.mp4'){
+  if(req.file.filename === 'demo7.mp4'){
   setTimeout(() => {
-    tconvert()
+    tconvert(req.file.filename);
   }, 2000);
 
-  } 
-  else{
-    setTimeout(() => {
-      fconvert()
-    }, 2000);
-  
+  setTimeout(() => {
+    const dir = './chunks'
+const files = fs.readdirSync(dir)
+
+
+
+console.log(files)
+for (const file of files) {
+  // console.log(file)
+  // ipfs(file)
+  let testFile = fs.readFileSync(`./chunks/${file}`);
+let testBuffer = new Buffer(testFile);
+ipfs(testBuffer)
+
   }
+}, 30000);
+
+
+  
+
+
+  } 
+  // else{
+  //   setTimeout(() => {
+  //     fconvert()
+  //   }, 2000);
+  
+  // }
     //  uploadToIpfs('../uploads/', "trail")
 
 

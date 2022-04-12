@@ -5,15 +5,15 @@ const cid=require('./tdata')
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 
-function tconvert(){
-    ffmpeg('./uploads/testvideo.mp4', { timeout: 232000 }).addOptions([
+function tconvert(name){
+    ffmpeg(`./media/${name}`, { timeout: 232000 }).addOptions([
     '-profile:v baseline',
     '-level 3.0',
     '-start_number 0',
     '-hls_time 10',
     '-hls_list_size 0',
     '-f hls'
-]).output('./uploads/output.m3u8').on('end', () => {
+]).output('./chunks/output.m3u8').on('end', () => {
     console.log('end');
 }).on('end', (stdout, stderr) => {
     console.log('Transcoding succeeded !');
