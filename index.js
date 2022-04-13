@@ -11,14 +11,13 @@ const { create }=require('ipfs-http-client')
 
 
 async function ipfs(Buffer){
-// connect to the default API address http://localhost:5001
+
 const client = create()
 const { cid } = await client.add(Buffer)
-console.log(cid.toString())
+console.log("The multihash is",cid.toString())
 }
 
 
-const hashid=["QmfPnXLhFd4ChNxtCfPUC7f1Eu1y9sZtRgvGe9P4cUnNH5","QmPEq1jAv9BFSSDTgXN4zedXcuyFr6YWHcN4fCTUR6hKjA","QmXuQThFsUbu2BBERHDRTuYHX7Mya77eQuD9hrTSgkAEb3","QmUfFYbC8mwujZ2Yqz6FCQC56K3TLxeQfXC5CPtb2zcbEV","QmUyj53V2sE4rKLnMwCt5SpcmF61Jfk4CWRJXgV8jVpkmA","QmWwHyhqDzbcDAwsSkXvPRLRfSBJfjWrCU9nb6rc8eB9A5","QmTcQ1xM4hGh513zb4ZSK4UNgRsHooeePNHRm11wD7FaZR","QmaTPxYG3oLxPzwZRepg86Q3hzrSWxjv3SD9mAYkh3zkLa","QmPYnsxR73dkwx8KFFUHjG8DsbpvTFRsL7kTXwx3DvGw6S","QmcZfz7UP6Ncvtwioe71D5jCZjzHztyXwFPhmazbXJHHkE","QmbvPo6rtBg2Aa6JFxVhwM2fvsh5FHq3YoQoJ8vMHHNty4","QmXZWaekCaMhHpJuEHX85QFHZEW1yLt1AMVW7UWkvR9fma","QmP8wXQckjeFJ5Uawt4im6eZ8vB3k3512iHs3LRA8kbPvx"]
 
 const cors = require('cors');
 const { randomFill, randomBytes } = require("crypto");
@@ -87,18 +86,24 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
     const dir = './chunks'
 const files = fs.readdirSync(dir)
 
-
-
 console.log(files)
 for (const file of files) {
-  // console.log(file)
-  // ipfs(file)
+
   let testFile = fs.readFileSync(`./chunks/${file}`);
 let testBuffer = new Buffer(testFile);
 ipfs(testBuffer)
 
   }
-}, 30000);
+  setTimeout(() => {
+    let testFile = fs.readFileSync(`./media/${req.file.filename}`);
+  let testBuffer = new Buffer(testFile);
+  ipfs(testBuffer)
+  
+  },200);
+
+}, 25000);
+
+  
 
 
   
