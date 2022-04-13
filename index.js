@@ -79,7 +79,7 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
   }
   if(req.file.filename === 'demo7.mp4'){
   setTimeout(() => {
-    tconvert(req.file.filename);
+    // tconvert(req.file.filename);
   }, 2000);
 
   setTimeout(() => {
