@@ -79,7 +79,7 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
   }
   if(req.file.filename === 'demo7.mp4'){
   setTimeout(() => {
-    // tconvert(req.file.filename);
+    tconvert(req.file.filename);
   }, 2000);
 
   setTimeout(() => {
@@ -125,7 +125,7 @@ app.get("/video", function (req, res) {
   // Ensure there is a range given for the video
   videoNumber++;
   var ip_setup= nodes_online[(Math.random() * nodes_online.length) | 0]
-  var videohashValue= hashid[(Math.random() * hashid.length) | 0]
+  // var videohashValue= hashid[(Math.random() * hashid.length) | 0]
     // var videohash= "QmdzU"+randomBytes(24).toString("hex");
   const range = req.headers.range;
   console.log(range)
@@ -154,7 +154,7 @@ app.get("/video", function (req, res) {
     "Accept-Ranges": "bytes",
     "Content-Length": contentLength,
     "Content-Type": "chunk",
-    "File-Hash": videohashValue,
+    // "File-Hash": videohashValue,
     "File-CNo": videoNumber,
     "IP-Address": ip_setup
   };
@@ -179,6 +179,8 @@ app.get("/video", function (req, res) {
 });
 
 app.get('/mobvideo', function (req, res) {
+  // Ensure there is a range given for the video
+  res.setHeader('Access-Control-Allow-Origin', '*');
     const videoPath = "./testvideo.mp4"
   const resolvedPath = path.resolve(videoPath);
   res.sendFile(resolvedPath);
