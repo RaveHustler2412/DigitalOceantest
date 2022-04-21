@@ -66,8 +66,6 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
   // const videoPath = `../uploads/${file}`
   const videoPath = '.media/'
   const resolvedPath = path.resolve("media", videoPath);
-  // res.sendFile(resolvedPath);
-  // console.log(resolvedPath)
  
   console.log(req.file.filename)
 
@@ -77,6 +75,8 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
           file: req.file
       });
   }
+
+  
   if(req.file.filename === 'demo7.mp4'){
   setTimeout(() => {
     tconvert(req.file.filename);
@@ -181,9 +181,16 @@ app.get("/video", function (req, res) {
 app.get('/mobvideo', function (req, res) {
   // Ensure there is a range given for the video
   res.setHeader('Access-Control-Allow-Origin', '*');
-    const videoPath = "./testvideo.mp4"
+
+     const videoPath = "./chunks/output.m3u8"
+    //  require('./chunks/')
   const resolvedPath = path.resolve(videoPath);
   res.sendFile(resolvedPath);
+
+
+  //   const videoPath = "./testvideo.mp4"
+  // const resolvedPath = path.resolve(videoPath);
+  // res.sendFile(resolvedPath);
   });
 
 app.listen(8000, function () {
